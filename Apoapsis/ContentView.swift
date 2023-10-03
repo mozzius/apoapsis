@@ -5,6 +5,7 @@
 //  Created by Samuel Newman on 29/09/2023.
 //
 
+import Combine
 import SwiftUI
 import ATProto
 
@@ -25,13 +26,22 @@ class SessionProvider: ATProtoXRPC.SessionProvider, ObservableObject {
 
 
 class Agent: ObservableObject {
-    @Published var sessionProvider = SessionProvider()
+    @Published var sessionProvider: SessionProvider
     @Published var client: XRPCClient
+    
+    var anyCancellable: AnyCancellable? = nil
+    
     
     init(session: ATProtoXRPC.Session? = nil) {
         let sessionProvider = SessionProvider(session: session)
+        self.sessionProvider = sessionProvider
         let url = URL(string:"https://bsky.social/xrpc")
         self.client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: sessionProvider)
+        
+        // i don't understand swift. i think this allows nested observables
+        anyCancellable = sessionProvider.objectWillChange.sink { [weak self] (_) in
+            self?.objectWillChange.send()
+        }
     }
 }
 
