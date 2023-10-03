@@ -11,6 +11,12 @@
 		F75138882AC6F0B000F825B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75138872AC6F0B000F825B5 /* ContentView.swift */; };
 		F751388A2AC6F0B100F825B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F75138892AC6F0B100F825B5 /* Assets.xcassets */; };
 		F751388D2AC6F0B100F825B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F751388C2AC6F0B100F825B5 /* Preview Assets.xcassets */; };
+		F75138962AC6FD9700F825B5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75138952AC6FD9700F825B5 /* HomeView.swift */; };
+		F751389A2AC6FDCE00F825B5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75138992AC6FDCE00F825B5 /* LoginView.swift */; };
+		F7D3E0E22ACB114400332E57 /* ATProto in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E12ACB114400332E57 /* ATProto */; };
+		F7D3E0E42ACB114400332E57 /* ATProtoAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E32ACB114400332E57 /* ATProtoAPI */; };
+		F7D3E0E62ACB114400332E57 /* ATProtoCore in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E52ACB114400332E57 /* ATProtoCore */; };
+		F7D3E0E82ACB114400332E57 /* ATProtoXRPC in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E72ACB114400332E57 /* ATProtoXRPC */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +25,8 @@
 		F75138872AC6F0B000F825B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F75138892AC6F0B100F825B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F751388C2AC6F0B100F825B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F75138952AC6FD9700F825B5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F75138992AC6FDCE00F825B5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +34,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7D3E0E22ACB114400332E57 /* ATProto in Frameworks */,
+				F7D3E0E82ACB114400332E57 /* ATProtoXRPC in Frameworks */,
+				F7D3E0E42ACB114400332E57 /* ATProtoAPI in Frameworks */,
+				F7D3E0E62ACB114400332E57 /* ATProtoCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +65,8 @@
 			children = (
 				F75138852AC6F0B000F825B5 /* ApoapsisApp.swift */,
 				F75138872AC6F0B000F825B5 /* ContentView.swift */,
+				F75138952AC6FD9700F825B5 /* HomeView.swift */,
+				F75138992AC6FDCE00F825B5 /* LoginView.swift */,
 				F75138892AC6F0B100F825B5 /* Assets.xcassets */,
 				F751388B2AC6F0B100F825B5 /* Preview Content */,
 			);
@@ -83,6 +97,12 @@
 			dependencies = (
 			);
 			name = Apoapsis;
+			packageProductDependencies = (
+				F7D3E0E12ACB114400332E57 /* ATProto */,
+				F7D3E0E32ACB114400332E57 /* ATProtoAPI */,
+				F7D3E0E52ACB114400332E57 /* ATProtoCore */,
+				F7D3E0E72ACB114400332E57 /* ATProtoXRPC */,
+			);
 			productName = Apoapsis;
 			productReference = F75138822AC6F0B000F825B5 /* Apoapsis.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +131,9 @@
 				Base,
 			);
 			mainGroup = F75138792AC6F0B000F825B5;
+			packageReferences = (
+				F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */,
+			);
 			productRefGroup = F75138832AC6F0B000F825B5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,6 +160,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F751389A2AC6FDCE00F825B5 /* LoginView.swift in Sources */,
+				F75138962AC6FD9700F825B5 /* HomeView.swift in Sources */,
 				F75138882AC6F0B000F825B5 /* ContentView.swift in Sources */,
 				F75138862AC6F0B000F825B5 /* ApoapsisApp.swift in Sources */,
 			);
@@ -279,7 +304,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.mozzius.Apoapsis;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.mozzius.apoapsis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -307,7 +332,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.mozzius.Apoapsis;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.mozzius.apoapsis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -337,6 +362,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/andooown/swift-atproto.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F7D3E0E12ACB114400332E57 /* ATProto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */;
+			productName = ATProto;
+		};
+		F7D3E0E32ACB114400332E57 /* ATProtoAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */;
+			productName = ATProtoAPI;
+		};
+		F7D3E0E52ACB114400332E57 /* ATProtoCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */;
+			productName = ATProtoCore;
+		};
+		F7D3E0E72ACB114400332E57 /* ATProtoXRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */;
+			productName = ATProtoXRPC;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F751387A2AC6F0B000F825B5 /* Project object */;
 }

@@ -6,16 +6,43 @@
 //
 
 import SwiftUI
+import ATProto
+
+
+
+class SessionProvider: ATProtoXRPC.SessionProvider, ObservableObject {
+    @Published var session: ATProtoXRPC.Session? = nil
+    
+    init(session: ATProtoXRPC.Session? = nil) {
+        self.session = session
+    }
+    
+    func setSession(session: ATProtoXRPC.Session) {
+        self.session = session
+    }
+}
+
+
+
+class Agent: ObservableObject {
+    @Published var sessionProvider = SessionProvider()
+    @Published var client: XRPCClient
+    
+    init(session: ATProtoXRPC.Session? = nil) {
+        let sessionProvider = SessionProvider(session: session)
+        let url = URL(string:"https://bsky.social/xrpc")
+        self.client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: sessionProvider)
+    }
+}
+
 
 struct ContentView: View {
+    @StateObject var agent: Agent = Agent()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        NavigationStack {
+            agent.sessionProvider.session != nil ? AnyView(HomeView()) : AnyView(LoginView())
+        }.environmentObject(agent)
     }
 }
 
