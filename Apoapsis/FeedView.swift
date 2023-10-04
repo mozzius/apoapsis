@@ -85,27 +85,25 @@ struct FeedViewPostView: View {
                 }
                 
                 if let embed = feedPost.post.embed {
-                    Group {
-                        switch embed {
-                        case .type0(let images):
-                            ForEach (images.images, id: \.fullsize) { image in
-                                AsyncImage(url: URL(string: image.thumb)){ image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Color.gray
-                                }
-                                .frame(width: .infinity)
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 4.0))
-                                .padding(.trailing, 0.5)
+                    switch embed {
+                    case .type0(let images):
+                        ForEach (images.images, id: \.fullsize) { image in
+                            AsyncImage(url: URL(string: image.thumb)){ image in
+                                image.resizable()
+                            } placeholder: {
+                                Color.gray
                             }
-                        case .type1(let external):
-                            Text(external.external.uri)
-                        case .type2(let record):
-                            Text("2")
-                        case .type3(let recordWithMedia):
-                            Text("3")
+                            .frame(width: .infinity)
+                            .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                            .padding(.trailing, 0.5)
                         }
+                    case .type1(let external):
+                        Text(external.external.uri.rawValue)
+                    case .type2(let record):
+                        Text("2")
+                    case .type3(let recordWithMedia):
+                        Text("3")
                     }
                 }
                 

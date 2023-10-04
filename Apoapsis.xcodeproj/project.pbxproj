@@ -35,6 +35,7 @@
 		F751388C2AC6F0B100F825B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F75138952AC6FD9700F825B5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F75138992AC6FDCE00F825B5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F77F0BE02ACDCBAA00F4F27D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +72,7 @@
 		F75138842AC6F0B000F825B5 /* Apoapsis */ = {
 			isa = PBXGroup;
 			children = (
+				F77F0BE02ACDCBAA00F4F27D /* Info.plist */,
 				F75138852AC6F0B000F825B5 /* ApoapsisApp.swift */,
 				F75138872AC6F0B000F825B5 /* ContentView.swift */,
 				F75138952AC6FD9700F825B5 /* HomeView.swift */,
@@ -308,8 +310,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
+				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Apoapsis/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Apoapsis;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -336,8 +342,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
+				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Apoapsis/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Apoapsis;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
