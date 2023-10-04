@@ -24,7 +24,7 @@ struct LoginView: View {
             do {
                 let request = XRPCRequests.CreateSession(input: .init(identifier: identifier, password: password))
                 let result = try await agent.client.send(request)
-                agent.sessionProvider.setSession(session: result.toSession())
+                agent.saveSession(session: result.toSession())
             } catch {
                 self.error = error.localizedDescription
             }
@@ -34,9 +34,9 @@ struct LoginView: View {
     }
     
     var body: some View {
+        NavigationStack {
             Form {
                 Section {
-                    
                     TextField("Handle or email address", text: $identifier)
                         .textContentType(.username)
                         .autocorrectionDisabled()
@@ -56,14 +56,13 @@ struct LoginView: View {
                     }
                 })
             }
-        .navigationTitle("Sign in")
-        
-        
+            .navigationTitle("Sign in")
+        }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView().environmentObject(Agent())
     }
 }

@@ -5,43 +5,45 @@
 //  Created by Samuel Newman on 29/09/2023.
 //
 
-import Combine
 import SwiftUI
 import ATProto
+import Foundation
 
 
-
-class SessionProvider: ATProtoXRPC.SessionProvider, ObservableObject {
-    @Published var session: ATProtoXRPC.Session? = nil
+class SessionProvider: RawRepresentable, ATProtoXRPC.SessionProvider {
+    var session: ATProtoXRPC.Session?
     
-    init(session: ATProtoXRPC.Session? = nil) {
-        self.session = session
+    required public init(rawValue: String) {
+        if let data = rawValue.data(using: .utf8) {
+            let result = try? JSONDecoder().decode(ATProtoXRPC.Session.self, from: data)
+            self.session = result
+        } else {
+            self.session = nil
+        }
     }
     
-    func setSession(session: ATProtoXRPC.Session) {
-        self.session = session
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self.session),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return "null"
+        }
+        return result
     }
 }
 
-
-
-class Agent: ObservableObject {
-    @Published var sessionProvider: SessionProvider
+class Agent: ObservableObject  {
+    @AppStorage("session") var sessionProvider = SessionProvider()
     @Published var client: XRPCClient
     
-    var anyCancellable: AnyCancellable? = nil
-    
-    
-    init(session: ATProtoXRPC.Session? = nil) {
-        let sessionProvider = SessionProvider(session: session)
-        self.sessionProvider = sessionProvider
+    init() {
         let url = URL(string:"https://bsky.social/xrpc")
-        self.client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: sessionProvider)
-        
-        // i don't understand swift. i think this allows nested observables
-        anyCancellable = sessionProvider.objectWillChange.sink { [weak self] (_) in
-            self?.objectWillChange.send()
-        }
+        self.client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: self.sessionProvider)
+    }
+    
+    func saveSession(session: ATProtoXRPC.Session?) {
+        sessionProvider.session = session
+        objectWillChange.send()
     }
 }
 
@@ -50,8 +52,12 @@ struct ContentView: View {
     @StateObject var agent: Agent = Agent()
     
     var body: some View {
-        NavigationStack {
-            agent.sessionProvider.session != nil ? AnyView(HomeView()) : AnyView(LoginView())
+        Group {
+            if $agent.sessionProvider.session != nil  {
+                TabsView()
+            }  else {
+                LoginView()
+            }
         }.environmentObject(agent)
     }
 }

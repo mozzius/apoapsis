@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct HomeView: View {
-    
-    
     var body: some View {
-        VStack {
-            Text("Welcome")
-                .font(.largeTitle)
-        }.navigationTitle("Home View")
+        NavigationStack {
+            FeedView()
+        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView().environmentObject(Agent())
     }
 }
