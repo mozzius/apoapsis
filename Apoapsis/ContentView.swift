@@ -10,40 +10,45 @@ import ATProto
 import Foundation
 
 
-class SessionProvider: RawRepresentable, ATProtoXRPC.SessionProvider {
-    var session: ATProtoXRPC.Session?
-    
-    required public init(rawValue: String) {
-        if let data = rawValue.data(using: .utf8) {
-            let result = try? JSONDecoder().decode(ATProtoXRPC.Session.self, from: data)
-            self.session = result
-        } else {
-            self.session = nil
+class Agent: ObservableObject, ATProtoXRPC.SessionProvider  {
+    @Published var session: ATProtoXRPC.Session? = nil {
+        didSet {
+            let defaults = UserDefaults.standard
+            if session == nil {
+                defaults.removeObject(forKey: "session")
+            } else {
+                let encoder = JSONEncoder()
+                if let encoded = try? encoder.encode(session) {
+                    defaults.set(encoded, forKey: "session")
+                }
+            }
         }
     }
     
-    public var rawValue: String {
-        guard let data = try? JSONEncoder().encode(self.session),
-              let result = String(data: data, encoding: .utf8)
-        else {
-            return "null"
+    // because we're using this class as the session provider,
+    // create the client lazily - can't instanciate in the constructor
+    private var sessionClient: XRPCSessionClient? = nil
+    public var client: XRPCClient {
+        get {
+            if let client = self.sessionClient {
+                return client
+            } else {
+                let url = URL(string:"https://bsky.social/xrpc")
+                let client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: self)
+                self.sessionClient = client
+                return client
+            }
         }
-        return result
     }
-}
-
-class Agent: ObservableObject  {
-    @AppStorage("session") var sessionProvider = SessionProvider()
-    @Published var client: XRPCClient
     
     init() {
-        let url = URL(string:"https://bsky.social/xrpc")
-        self.client = XRPCSessionClient(baseURL: url!, urlSession: URLSession(configuration: .default), sessionProvider: self.sessionProvider)
-    }
-    
-    func saveSession(session: ATProtoXRPC.Session?) {
-        sessionProvider.session = session
-        objectWillChange.send()
+        let defaults = UserDefaults.standard
+        if let savedSession = defaults.object(forKey: "session") as? Data {
+            let decoder = JSONDecoder()
+            if let decodedSession = try? decoder.decode(ATProtoXRPC.Session.self, from: savedSession) {
+                self.session = decodedSession
+            }
+        }
     }
 }
 
@@ -53,7 +58,7 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if $agent.sessionProvider.session != nil  {
+            if agent.session != nil  {
                 TabsView()
             }  else {
                 LoginView()

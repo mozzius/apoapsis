@@ -30,7 +30,9 @@ class FeedViewModel: ObservableObject {
             self.posts = result.feed
             self.cursor = result.cursor
             self.hasData = true
+            self.error = ""
         } catch {
+            print(error)
             self.error = error.localizedDescription
         }
         isLoading = false
@@ -47,6 +49,7 @@ class FeedViewModel: ObservableObject {
             self.cursor = result.cursor
             self.hasData = true
         } catch {
+            print(error)
             self.error = error.localizedDescription
         }
         isLoading = false

@@ -13,6 +13,7 @@ struct FeedView: View {
     @StateObject var vm = FeedViewModel(feed: ATURI(string: "at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot")!)
     
     var body: some View {
+        
         List {
             ForEach(vm.posts, id: \.post.uri) { feedPost in
                 FeedViewPostView(feedPost: feedPost)
@@ -23,9 +24,13 @@ struct FeedView: View {
         }.task() {
             await vm.fetch(agent: agent)
         }.overlay {
-            if vm.isLoading && !vm.hasData {
+            if !vm.error.isEmpty {
+                Text(vm.error).foregroundColor(.red)
+            } else if vm.isLoading && !vm.hasData {
                 ProgressView().controlSize(.large)
             }
+        }.refreshable {
+            await vm.fetch(agent: agent)
         }
         .listStyle(.plain)
         .navigationTitle("Discover")
@@ -34,7 +39,9 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView().environmentObject(Agent())
+        NavigationStack {
+            FeedView().environmentObject(Agent())
+        }
     }
 }
 
@@ -65,7 +72,7 @@ struct FeedViewPostView: View {
                         Text("@" + feedPost.post.author.handle).foregroundColor(.gray)
                     }
                     
-                }.lineLimit(1).padding(.bottom, 1.0)
+                }.lineLimit(1).padding(.bottom, 0.5)
                 
                 if let body = feedPost.post.record.asPost?.text {
                     Text(body)
@@ -80,8 +87,8 @@ struct FeedViewPostView: View {
                     Label(String(feedPost.post.repostCount ?? 0), systemImage: "repeat")
                     
                     Label(String(feedPost.post.likeCount ?? 0), systemImage: "heart")
-                        .symbolVariant(feedPost.post.viewer?.like == nil ? .none : .fill)
-                        
+                        .symbolVariant(feedPost.post.viewer?.like == nil ? .none : .fill).foregroundColor(.)
+                    
                 }
             }
             
