@@ -395,7 +395,7 @@
 			repositoryURL = "https://github.com/andooown/swift-atproto.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.5;
+				minimumVersion = 0.0.7;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

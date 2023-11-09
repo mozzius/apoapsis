@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/andooown/swift-atproto.git",
       "state" : {
-        "revision" : "d35e0190ad5ca18387e0f257df093e1c590f37eb",
-        "version" : "0.0.5"
+        "revision" : "efd423cf076d858832381aca802566126f028b58",
+        "version" : "0.0.7"
       }
     },
     {
@@ -34,6 +34,15 @@
       "state" : {
         "revision" : "a0e7d73f462c1c38c59dc40a3969ac40cea42950",
         "version" : "0.13.0"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "revision" : "6ad4ea24b01559dde0773e3d091f1b9e36175036",
+        "version" : "509.0.2"
       }
     },
     {
