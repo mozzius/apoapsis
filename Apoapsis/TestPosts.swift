@@ -497,3 +497,90 @@ func getTestPostWith4Images() -> ATProto.App.Bsky.Feed.Defs.FeedViewPost? {
         return nil
     }
 }
+
+func getTestPostWithExternal() -> ATProto.App.Bsky.Feed.Defs.FeedViewPost? {
+    let json = #"""
+{
+    "post": {
+        "uri": "at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.feed.post/3kc73spr2ut2g",
+        "cid": "bafyreiaqyewlazdrj2tth6mqipr2srr6uroci73xsbaieybsnftjqbrh64",
+        "author": {
+            "did": "did:plc:jfhpnnst6flqway4eaeqzj2a",
+            "handle": "bossett.bsky.social",
+            "displayName": "Bossett",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:jfhpnnst6flqway4eaeqzj2a/bafkreibj7mlkxjatnihxg7tlwca4rr27savogyqkakfm2fdfz3xdvbz2my@jpeg",
+            "viewer": {
+                "muted": false,
+                "blockedBy": false,
+                "following": "at://did:plc:p2cp5gopk7mgjegy6wadk3ep/app.bsky.graph.follow/3k5czjno5jo2z",
+                "followedBy": "at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.graph.follow/3kahzywmnqf2e"
+            },
+            "labels": []
+        },
+        "record": {
+            "text": "graysky.app is rumoured to have been released today.\n\nThis is a PSA that it's a trap to sneak gifs onto your timeline, and make you use *hashtags*. If we start letting *features* into *apps* where does this end?",
+            "$type": "app.bsky.feed.post",
+            "embed": {
+                "$type": "app.bsky.embed.external",
+                "external": {
+                    "uri": "https://graysky.app/",
+                    "thumb": {
+                        "$type": "blob",
+                        "ref": {
+                            "$link": "bafkreidjyeyhgkfsozuhzfk6mhq4htmilkbukrc26q2ezfvca2obxqjm5a"
+                        },
+                        "mimeType": "image/jpeg",
+                        "size": 751633
+                    },
+                    "title": "Graysky - a bluesky client",
+                    "description": "Experience a whole different skyline."
+                }
+            },
+            "langs": [
+                "en"
+            ],
+            "facets": [
+                {
+                    "index": {
+                        "byteEnd": 11,
+                        "byteStart": 0
+                    },
+                    "features": [
+                        {
+                            "uri": "https://graysky.app/",
+                            "$type": "app.bsky.richtext.facet#link"
+                        }
+                    ]
+                }
+            ],
+            "createdAt": 1699621300
+        },
+        "embed": {
+            "$type": "app.bsky.embed.external#view",
+            "external": {
+                "uri": "https://graysky.app/",
+                "title": "Graysky - a bluesky client",
+                "description": "Experience a whole different skyline.",
+                "thumb": "https://cdn.bsky.app/img/feed_thumbnail/plain/did:plc:jfhpnnst6flqway4eaeqzj2a/bafkreidjyeyhgkfsozuhzfk6mhq4htmilkbukrc26q2ezfvca2obxqjm5a@jpeg"
+            }
+        },
+        "replyCount": 4,
+        "repostCount": 6,
+        "likeCount": 35,
+        "indexedAt": 1699621300,
+        "viewer": {
+            "repost": "at://did:plc:p2cp5gopk7mgjegy6wadk3ep/app.bsky.feed.repost/3kc73u4mw6y2b",
+            "like": "at://did:plc:p2cp5gopk7mgjegy6wadk3ep/app.bsky.feed.like/3kc73tnnjzv2w"
+        },
+        "labels": []
+    }
+}
+"""#.data(using: .utf8)!
+    let decoder = JSONDecoder()
+    do {
+        return try decoder.decode(ATProto.App.Bsky.Feed.Defs.FeedViewPost.self, from: json)
+    } catch {
+        print(error)
+        return nil
+    }
+}

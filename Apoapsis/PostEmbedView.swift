@@ -16,12 +16,63 @@ struct PostEmbedView: View {
         case .type0(let images):
             ImagesEmbedView(images: images)
         case .type1(let external):
-            Text(external.external.uri.rawValue)
+            ExternalEmbedView(external: external)
         case .type2(let record):
             Text("<Quote>")
         case .type3(let recordWithMedia):
-            Text("<Quote with media>")
+            VStack(spacing: 5.0) {
+                switch recordWithMedia.media {
+                case .type0(let images):
+                    ImagesEmbedView(images: images)
+                case .type1(let external):
+                    ExternalEmbedView(external: external)
+                }
+                Text("<Quote>")
+            }
         }
+    }
+}
+
+struct ExternalEmbedView: View {
+    var external: ATProto.App.Bsky.Embed.External.View
+    
+    var body: some View {
+        VStack {
+            if let thumb = external.external.thumb {
+                AsyncImage(url: URL(string: thumb)) { image in
+                    image.centerCropped()
+                } placeholder: {
+                    Color.gray
+                }
+                .aspectRatio(CGSize(width: 1200, height: 630), contentMode: .fill)
+            }
+            VStack(spacing: 4.0) {
+                if let url = external.external.uri.url {
+                    if let host = url.host(percentEncoded: false) {
+                        HStack {
+                            Image(systemName: "link")
+                            Text(host)
+                            
+                            Spacer()
+                        }
+                        .foregroundStyle(.gray).font(.subheadline)
+                    }
+                }
+                HStack {
+                    Text(external.external.title)
+                        .font(.headline)
+                    Spacer()
+                }
+                
+            }
+            .padding(.bottom, 10.0)
+            .padding(.horizontal)
+            .padding(/*@START_MENU_TOKEN@*/.top, 3.0/*@END_MENU_TOKEN@*/)
+        }
+        .frame(width: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: 4.0))
+        .overlay(RoundedRectangle(cornerRadius: 4.0)
+            .stroke(.gray, lineWidth: 0.33))
     }
 }
 
@@ -131,10 +182,10 @@ extension Image {
     func centerCropped() -> some View {
         GeometryReader { geo in
             self
-            .resizable()
-            .scaledToFill()
-            .frame(width: geo.size.width, height: geo.size.height)
-            .clipped()
+                .resizable()
+                .scaledToFill()
+                .frame(width: geo.size.width, height: geo.size.height)
+                .clipped()
         }
     }
 }
@@ -142,6 +193,17 @@ extension Image {
 #Preview {
     NavigationStack {
         List {
+            Section {
+                Text("External:")
+                if let post = getTestPostWithExternal() {
+                    PostEmbedView(embed: post.post.embed!)
+                        .padding()
+                        .environmentObject(Agent())
+                }
+                else {
+                    Text("Could not decode JSON")
+                }
+            }
             Section {
                 Text("Image (1 image):")
                 if let post = getTestPost() {
