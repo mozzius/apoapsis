@@ -19,6 +19,7 @@
 		F751389A2AC6FDCE00F825B5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75138992AC6FDCE00F825B5 /* LoginView.swift */; };
 		F7555BB42AFE5A850052909E /* FeedPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7555BB32AFE5A850052909E /* FeedPostView.swift */; };
 		F7555BB62AFE61A90052909E /* PostEmbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7555BB52AFE61A90052909E /* PostEmbedView.swift */; };
+		F7555BBA2AFE7EE00052909E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7555BB92AFE7EE00052909E /* HomeViewModel.swift */; };
 		F7D3E0E22ACB114400332E57 /* ATProto in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E12ACB114400332E57 /* ATProto */; };
 		F7D3E0E42ACB114400332E57 /* ATProtoAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E32ACB114400332E57 /* ATProtoAPI */; };
 		F7D3E0E62ACB114400332E57 /* ATProtoCore in Frameworks */ = {isa = PBXBuildFile; productRef = F7D3E0E52ACB114400332E57 /* ATProtoCore */; };
@@ -39,6 +40,7 @@
 		F75138992AC6FDCE00F825B5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F7555BB32AFE5A850052909E /* FeedPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPostView.swift; sourceTree = "<group>"; };
 		F7555BB52AFE61A90052909E /* PostEmbedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEmbedView.swift; sourceTree = "<group>"; };
+		F7555BB92AFE7EE00052909E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F77F0BE02ACDCBAA00F4F27D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 				F75138852AC6F0B000F825B5 /* ApoapsisApp.swift */,
 				F75138872AC6F0B000F825B5 /* ContentView.swift */,
 				F75138952AC6FD9700F825B5 /* HomeView.swift */,
+				F7555BB92AFE7EE00052909E /* HomeViewModel.swift */,
 				F73C141A2ACD626B001707C1 /* FeedView.swift */,
 				F73C141C2ACD6275001707C1 /* FeedViewModel.swift */,
 				F7555BB32AFE5A850052909E /* FeedPostView.swift */,
@@ -181,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F73C141B2ACD626B001707C1 /* FeedView.swift in Sources */,
+				F7555BBA2AFE7EE00052909E /* HomeViewModel.swift in Sources */,
 				F751389A2AC6FDCE00F825B5 /* LoginView.swift in Sources */,
 				F73C14192ACD5C56001707C1 /* WIPView.swift in Sources */,
 				F75138962AC6FD9700F825B5 /* HomeView.swift in Sources */,
@@ -320,7 +324,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -333,6 +337,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -352,7 +357,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -365,6 +370,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

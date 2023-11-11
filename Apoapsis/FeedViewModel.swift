@@ -15,22 +15,27 @@ class FeedViewModel: ObservableObject {
     @Published var error = ""
     @Published var hasData = false
     @Published var isLoading = false
-    @Published var feed: ATURI
     
-    init(feed: ATURI) {
-        self.feed = feed
+    init() {
     }
     
     
-    func fetch(agent: Agent) async {
+    func fetch(uri: ATURI, agent: Agent) async {
+        posts = []
+        hasData = false
+        return await refresh(uri: uri, agent: agent)
+    }
+    
+    func refresh(uri: ATURI, agent: Agent) async {
         isLoading = true
+        cursor = nil
         do {
-            let request = ATProtoAPI.App.Bsky.Feed.GetFeed(parameters: .init(feed: self.feed))
+            let request = ATProtoAPI.App.Bsky.Feed.GetFeed(parameters: .init(feed: uri))
             let result = try await agent.client.send(request)
-            self.posts = result.feed
-            self.cursor = result.cursor
-            self.hasData = true
-            self.error = ""
+            posts = result.feed
+            cursor = result.cursor
+            hasData = true
+            error = ""
         } catch {
             print(error)
             self.error = error.localizedDescription
@@ -38,16 +43,15 @@ class FeedViewModel: ObservableObject {
         isLoading = false
     }
     
-    func fetchMore(agent: Agent, item: ATProto.App.Bsky.Feed.Defs.FeedViewPost) async {
+    func fetchMore(uri: ATURI, agent: Agent) async {
         if cursor == nil || isLoading {return}
-        if item.post.uri != self.posts.last?.post.uri {return}
         isLoading = true
         do {
-            let request = ATProtoAPI.App.Bsky.Feed.GetFeed(parameters: .init(cursor: self.cursor, feed: self.feed))
+            let request = ATProtoAPI.App.Bsky.Feed.GetFeed(parameters: .init(cursor: cursor, feed: uri))
             let result = try await agent.client.send(request)
-            self.posts.append(contentsOf: result.feed)
-            self.cursor = result.cursor
-            self.hasData = true
+            posts.append(contentsOf: result.feed)
+            cursor = result.cursor
+            hasData = true
         } catch {
             print(error)
             self.error = error.localizedDescription
