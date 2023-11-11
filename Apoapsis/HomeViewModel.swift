@@ -37,12 +37,14 @@ class HomeViewModel: ObservableObject {
                     let feedResult = try await agent.client.send(feedRequest)
                     allFeeds = feedResult.feeds
                     
+                    savedFeeds = []
                     for feed in allFeeds {
                         if feedPrefs.pinned.contains(where: {$0 != feed.uri}) {
                             savedFeeds.append(feed)
                         }
                     }
                     
+                    pinnedFeeds = []
                     // have to do it in order of the pinned feeds
                     for uri in feedPrefs.pinned {
                         if let feed = allFeeds.first(where: {$0.uri == uri}) {

@@ -9,17 +9,26 @@ import SwiftUI
 import ATProto
 import Foundation
 
-
 class Agent: ObservableObject, ATProtoXRPC.SessionProvider  {
+    @Published var did: String? = nil {
+        didSet {
+            let defaults = UserDefaults.standard
+            if did == nil {
+                defaults.removeObject(forKey: "sessionDid")
+            } else {
+                defaults.set(did, forKey: "sessionDid")
+            }
+        }
+    }
     @Published var session: ATProtoXRPC.Session? = nil {
         didSet {
             let defaults = UserDefaults.standard
             if session == nil {
-                defaults.removeObject(forKey: "session")
+                defaults.removeObject(forKey: "session2")
             } else {
                 let encoder = JSONEncoder()
                 if let encoded = try? encoder.encode(session) {
-                    defaults.set(encoded, forKey: "session")
+                    defaults.set(encoded, forKey: "session2")
                 }
             }
         }
@@ -43,11 +52,14 @@ class Agent: ObservableObject, ATProtoXRPC.SessionProvider  {
     
     init() {
         let defaults = UserDefaults.standard
-        if let savedSession = defaults.object(forKey: "session") as? Data {
+        if let savedSession = defaults.object(forKey: "session2") as? Data {
             let decoder = JSONDecoder()
             if let decodedSession = try? decoder.decode(ATProtoXRPC.Session.self, from: savedSession) {
                 self.session = decodedSession
             }
+        }
+        if let savedDid = defaults.string(forKey: "sessionDid") {
+            self.did = savedDid
         }
     }
 }

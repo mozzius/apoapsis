@@ -9,6 +9,7 @@ import SwiftUI
 import ATProto
 
 struct FeedPostView: View {
+    @EnvironmentObject var agent: Agent
     var feedPost: ATProto.App.Bsky.Feed.Defs.FeedViewPost
     @State var repostSheetOpen = false
     @State var like: ATURI?
@@ -20,6 +21,22 @@ struct FeedPostView: View {
         self.repost = feedPost.post.viewer?.repost
     }
     
+    func toggleLike() async {
+//        do {
+//            if let rkey = like?.rkey {
+//                let unlike = ATProtoAPI.Com.Atproto.Repo.DeleteRecord(input: .init(collection: "app.bsky.feed.like", repo: agent.did!, rkey: rkey))
+//                let _ = try await agent.client.send(unlike)
+//                like = nil
+//            } else {
+//                let like = ATProtoAPI.App.Bsky.Feed.Like(createdAt: .now, subject: .init(cid: feedPost.post.cid, uri: feedPost.post.uri))
+//                let newLike = try await agent.client.send(like)
+//                self.like = newLike
+//            }
+//        } catch {
+//            print(error)
+//        }
+    }
+
     var body: some View {
         HStack(alignment: .top) {
             AsyncImage(url: URL(string: feedPost.post.author.avatar ?? "")) { image in
@@ -32,7 +49,7 @@ struct FeedPostView: View {
             .clipShape(Circle())
             .padding(.trailing, 2.0)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10.0) {
                 Group() {
                     if let displayName = feedPost.post.author.displayName {
                         Text(displayName).bold() + Text(" @" + feedPost.post.author.handle)
@@ -44,7 +61,6 @@ struct FeedPostView: View {
                 
                 if let body = feedPost.post.record.asPost?.text {
                     Text(body)
-                        .padding(.bottom, 1.0)
                         .multilineTextAlignment(.leading)
                 }
                 
@@ -55,7 +71,7 @@ struct FeedPostView: View {
                 HStack {
                     Label("Reply", systemImage: "bubble.left")
                         .labelStyle(.iconOnly)
-                        .frame(minWidth: 25.0, alignment: .leading)
+                        .frame(minWidth: 30.0, alignment: .leading)
                         .padding(.trailing)
                     HStack {
                         Label("Repost", systemImage: "repeat")
@@ -79,10 +95,11 @@ struct FeedPostView: View {
                         Label("Like", systemImage: "heart")
                             .symbolVariant(like == nil ? .none : .fill)
                             .labelStyle(.iconOnly)
+                            .contentTransition(.symbolEffect(.replace))
                         Text(String(feedPost.post.likeCount ?? 0))
                     }.foregroundColor(like == nil ? nil : .red)
                         .onTapGesture {
-                            
+                            toggleLike()
                         }
                     
                 }

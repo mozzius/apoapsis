@@ -32,6 +32,7 @@
 /* Begin PBXFileReference section */
 		F71A0EFB2AFFB4E2007A8942 /* Apoapsis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Apoapsis.entitlements; sourceTree = "<group>"; };
 		F71A0EFC2AFFC9F1007A8942 /* TestPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPosts.swift; sourceTree = "<group>"; };
+		F71A0EFF2B003EC6007A8942 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		F73C14162ACD5AAF001707C1 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		F73C14182ACD5C56001707C1 /* WIPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIPView.swift; sourceTree = "<group>"; };
 		F73C141A2ACD626B001707C1 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
@@ -66,9 +67,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F71A0EFE2B003E99007A8942 /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				F71A0EFF2B003EC6007A8942 /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 		F75138792AC6F0B000F825B5 = {
 			isa = PBXGroup;
 			children = (
+				F71A0EFE2B003E99007A8942 /* ci_scripts */,
 				F75138842AC6F0B000F825B5 /* Apoapsis */,
 				F75138832AC6F0B000F825B5 /* Products */,
 			);
@@ -339,7 +349,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apoapsis/Apoapsis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -352,7 +362,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -376,7 +386,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apoapsis/Apoapsis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -389,7 +399,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -46,13 +46,13 @@ struct ExternalEmbedView: View {
                 }
                 .aspectRatio(CGSize(width: 1200, height: 630), contentMode: .fill)
             }
-            VStack(spacing: 4.0) {
+            VStack(spacing: 5.0) {
                 if let url = external.external.uri.url {
                     if let host = url.host(percentEncoded: false) {
                         HStack {
                             Image(systemName: "link")
                             Text(host)
-                            
+                                .lineLimit(1)
                             Spacer()
                         }
                         .foregroundStyle(.gray).font(.subheadline)
@@ -61,6 +61,7 @@ struct ExternalEmbedView: View {
                 HStack {
                     Text(external.external.title)
                         .font(.headline)
+                        .lineLimit(2)
                     Spacer()
                 }
                 

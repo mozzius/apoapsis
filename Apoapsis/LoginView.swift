@@ -28,6 +28,7 @@ struct LoginView: View {
                 let request = XRPCRequests.CreateSession(input: .init(identifier: identifier, password: password))
                 let result = try await agent.client.send(request)
                 agent.session = result.toSession()
+                agent.did = result.did
             } catch {
                 self.error = error.localizedDescription
             }
