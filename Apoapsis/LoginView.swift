@@ -11,10 +11,10 @@ import ATProto
 
 struct LoginView: View {
     @EnvironmentObject var agent: Agent
-    @State  var identifier: String = ""
-    @State  var password: String = ""
-    @State  var error: String = ""
-    @State  var isButtonDisabled: Bool = false
+    @State var identifier: String = ""
+    @State var password: String = ""
+    @State var error: String = ""
+    @State var isButtonDisabled: Bool = false
     
     
     private func logIn() {
@@ -47,7 +47,7 @@ struct LoginView: View {
                     SecureField("Password", text: $password)
                         .textContentType(.password)
                 } header: {
-                        Text("Please sign in to continue.")
+                    Text("Please sign in to continue.")
                 } footer: {
                     error.isEmpty ? Text("You may want to log in using an App Password to ensure the safety of your account - however, this disables certain features.") : Text(error).foregroundColor(.red)
                 }
@@ -68,8 +68,7 @@ struct LoginView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView().environmentObject(Agent())
-    }
+#Preview {
+    LoginView().environmentObject(Agent())
 }
+

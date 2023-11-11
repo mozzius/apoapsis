@@ -9,12 +9,11 @@ import SwiftUI
 
 struct WIPView: View {
     var body: some View {
-        Text("Hello, World!")
+        Text("WIP")
     }
 }
 
-struct WIPView_Previews: PreviewProvider {
-    static var previews: some View {
-        WIPView()
-    }
+#Preview {
+    WIPView()
 }
+

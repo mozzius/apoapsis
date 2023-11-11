@@ -14,9 +14,6 @@ struct TabsView: View {
                 Label("Home", systemImage: "house")
             }
             WIPView().tabItem {
-                Label("Search", systemImage: "magnifyingglass")
-            }
-            WIPView().tabItem {
                 Label("Notifications", systemImage: "bell")
             }
             WIPView().tabItem {
@@ -26,8 +23,7 @@ struct TabsView: View {
     }
 }
 
-struct TabsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabsView().environmentObject(Agent())
-    }
+#Preview {
+    TabsView().environmentObject(Agent())
 }
+

@@ -62,9 +62,9 @@ struct FeedPostView: View {
                             .labelStyle(.iconOnly)
                         Text(String(feedPost.post.repostCount ?? 0))
                     }.foregroundColor(repost == nil ? nil : .green)
-                    .onTapGesture {
-                        repostSheetOpen = true
-                    }.accessibilityLabel("Opens the repost/quote post menu")
+                        .onTapGesture {
+                            repostSheetOpen = true
+                        }.accessibilityLabel("Opens the repost/quote post menu")
                         .confirmationDialog("Repost or quote post", isPresented: $repostSheetOpen, titleVisibility: .hidden) {
                             Button("Repost") {
                                 print("repost")
@@ -81,9 +81,9 @@ struct FeedPostView: View {
                             .labelStyle(.iconOnly)
                         Text(String(feedPost.post.likeCount ?? 0))
                     }.foregroundColor(like == nil ? nil : .red)
-                    .onTapGesture {
-                        
-                    }
+                        .onTapGesture {
+                            
+                        }
                     
                 }
             }
@@ -93,18 +93,15 @@ struct FeedPostView: View {
 }
 
 
-struct FeedPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            if let post = getTestPost() {
-                FeedPostView(feedPost: post)
-                    .padding()
-                    .environmentObject(Agent())
-            } else {
-                Text("Could not decode JSON")
-            }
+#Preview {
+    NavigationStack {
+        if let post = getTestPost() {
+            FeedPostView(feedPost: post)
+                .padding()
+                .environmentObject(Agent())
+        } else {
+            Text("Could not decode JSON")
         }
-        
     }
 }
 

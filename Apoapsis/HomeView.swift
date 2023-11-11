@@ -13,28 +13,20 @@ struct HomeView: View {
     @EnvironmentObject var agent: Agent
     @StateObject var vm = HomeViewModel()
     @State private var visibility: NavigationSplitViewVisibility = .all
+    // @State var query: String = ""
     
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
             List(selection: $selectedFeed) {
                 if vm.hasFeeds {
                     NavigationLink(value: "following") {
-                        RoundedRectangle(cornerRadius: 2.0)
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(.blue)
+                        FeedImage()
                         Text("Following")
                     }
                     Section("Favourites") {
                         ForEach(vm.pinnedFeeds, id: \.uri) { feed in
                             NavigationLink(value: feed.uri.toString()) {
-                                AsyncImage(url: URL(string: feed.avatar ?? "")) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Color.gray
-                                }
-                                .frame(width: 16, height: 16)
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 2.0))
+                                FeedImage(src: feed.avatar)
                                 Text(feed.displayName)
                             }
                         }
@@ -42,24 +34,20 @@ struct HomeView: View {
                     Section("All feeds") {
                         ForEach(vm.savedFeeds, id: \.uri) { feed in
                             NavigationLink(value: feed.uri.toString()) {
-                                AsyncImage(url: URL(string: feed.avatar ?? "")) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Color.gray
-                                }
-                                .frame(width: 16, height: 16)
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 2.0))
+                                FeedImage(src: feed.avatar)
                                 Text(feed.displayName)
                             }
                         }
                     }
                 }
-            }.navigationTitle("Bluesky")
+            }
+            .navigationTitle("Bluesky")
+            // .searchable(text: $query, prompt: "Search feeds")
         } detail: {
             if selectedFeed == "following" {
-                Text("Following feed goes here")
-            } else if let feed = ATURI(string: selectedFeed!) {
+                TimelineView()
+                    .navigationTitle("Following")
+            } else if let feed = ATURI(string: selectedFeed ?? "") {
                 if let feedInfo = vm.allFeeds.first(where: {$0.uri == feed}) {
                     FeedView(uri: feed)
                         .id(feed)
@@ -76,8 +64,30 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView().environmentObject(Agent())
+struct FeedImage: View {
+    var src: String?
+    
+    var body: some View {
+        Group {
+            if let url = src {
+                AsyncImage(url: URL(string: url)) { image in
+                    image.resizable()
+                } placeholder: {
+                    Color.gray
+                }
+                .frame(width: 20, height: 20)
+                .scaledToFit()
+                .clipShape(RoundedRectangle(cornerRadius: 2.0))
+            } else {
+                RoundedRectangle(cornerRadius: 2.0)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.blue)
+            }
+        }
     }
 }
+
+#Preview {
+    HomeView().environmentObject(Agent())
+}
+

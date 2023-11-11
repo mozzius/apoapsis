@@ -1,17 +1,16 @@
 //
-//  FeedView.swift
+//  FollowingView.swift
 //  Apoapsis
 //
-//  Created by Samuel Newman on 04/10/2023.
+//  Created by Samuel Newman on 11/11/2023.
 //
 
 import SwiftUI
 import ATProto
 
-struct FeedView: View {
+struct TimelineView: View {
     @EnvironmentObject var agent: Agent
-    @StateObject private var vm = FeedViewModel()
-    @State var uri: ATURI
+    @StateObject private var vm = TimelineViewModel()
     
     var body: some View {
         List {
@@ -21,12 +20,12 @@ struct FeedView: View {
                     .alignmentGuide(.listRowSeparatorLeading) { _ in -30 }
                     .task() {
                         if feedPost.post.uri == vm.posts.last?.post.uri {
-                            await vm.fetchMore(uri: uri, agent: agent)
+                            await vm.fetchMore(agent: agent)
                         }
                     }
             }
         }.task() {
-            await vm.fetch(uri: uri, agent: agent)
+            await vm.fetch(agent: agent)
         }.overlay {
             if !vm.error.isEmpty {
                 Text(vm.error).foregroundColor(.red)
@@ -34,15 +33,15 @@ struct FeedView: View {
                 ProgressView().controlSize(.large)
             }
         }.refreshable {
-            await vm.refresh(uri: uri, agent: agent)
+            await vm.refresh(agent: agent)
         }
         .listStyle(.plain)
     }
 }
 
-#Preview{
+#Preview {
     NavigationStack {
-        FeedView(uri: ATURI(string: "at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot")!).environmentObject(Agent())
+        TimelineView().environmentObject(Agent())
     }
 }
 

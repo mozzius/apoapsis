@@ -35,13 +35,18 @@ class HomeViewModel: ObservableObject {
                 if case let .type2(feedPrefs) = preference {
                     let feedRequest = ATProto.App.Bsky.Feed.GetFeedGenerators(parameters: .init(feeds: feedPrefs.saved))
                     let feedResult = try await agent.client.send(feedRequest)
-                    self.allFeeds = feedResult.feeds
+                    allFeeds = feedResult.feeds
                     
-                    for feed in self.allFeeds {
-                        if feedPrefs.pinned.contains(where: {$0 == feed.uri}) {
-                            pinnedFeeds.append(feed)
-                        } else {
+                    for feed in allFeeds {
+                        if feedPrefs.pinned.contains(where: {$0 != feed.uri}) {
                             savedFeeds.append(feed)
+                        }
+                    }
+                    
+                    // have to do it in order of the pinned feeds
+                    for uri in feedPrefs.pinned {
+                        if let feed = allFeeds.first(where: {$0.uri == uri}) {
+                            pinnedFeeds.append(feed)
                         }
                     }
                     
