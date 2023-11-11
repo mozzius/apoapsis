@@ -39,22 +39,21 @@ struct PostEmbedView: View {
     }
 }
 
-struct PostEmbedView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            if let post = getTestPost() {
-                List {
-                    Section {
-                        Text("Image (1 image):")
-                        PostEmbedView(embed: post.post.embed!)
-                            .padding()
-                            .environmentObject(Agent())
-                    }
+#Preview {
+    NavigationStack {
+        if let post = getTestPost() {
+            List {
+                Section {
+                    Text("Image (1 image):")
+                    PostEmbedView(embed: post.post.embed!)
+                        .padding()
+                        .environmentObject(Agent())
                 }
-            } else {
-                Text("Could not decode JSON")
             }
+        } else {
+            Text("Could not decode JSON")
         }
-        
     }
+    
 }
+
