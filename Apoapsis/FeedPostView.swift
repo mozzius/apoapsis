@@ -13,30 +13,100 @@ struct FeedPostView: View {
     var feedPost: ATProto.App.Bsky.Feed.Defs.FeedViewPost
     @State var repostSheetOpen = false
     @State var like: ATURI?
+    @State var showLike: Bool
+    @State var likeCount: Int
     @State var repost: ATURI?
+    @State var showRepost: Bool
+    @State var repostCount: Int
     
     init(feedPost: ATProto.App.Bsky.Feed.Defs.FeedViewPost) {
         self.feedPost = feedPost
         self.like = feedPost.post.viewer?.like
+        self.showLike = feedPost.post.viewer?.like != nil
+        self.likeCount = feedPost.post.likeCount ?? 0
         self.repost = feedPost.post.viewer?.repost
+        self.showRepost = feedPost.post.viewer?.repost != nil
+        self.repostCount = feedPost.post.repostCount ?? 0
     }
     
     func toggleLike() async {
-//        do {
-//            if let rkey = like?.rkey {
-//                let unlike = ATProtoAPI.Com.Atproto.Repo.DeleteRecord(input: .init(collection: "app.bsky.feed.like", repo: agent.did!, rkey: rkey))
-//                let _ = try await agent.client.send(unlike)
-//                like = nil
-//            } else {
-//                let like = ATProtoAPI.App.Bsky.Feed.Like(createdAt: .now, subject: .init(cid: feedPost.post.cid, uri: feedPost.post.uri))
-//                let newLike = try await agent.client.send(like)
-//                self.like = newLike
-//            }
-//        } catch {
-//            print(error)
-//        }
+        do {
+            if let rkey = like?.rkey {
+                withAnimation {
+                    showLike = false
+                }
+                let unlikeRequest = ATProtoAPI.Com.Atproto.Repo.DeleteRecord(input: .init(collection: "app.bsky.feed.like", repo: agent.did!, rkey: rkey))
+                let _ = try await agent.client.send(unlikeRequest)
+                like = nil
+            } else {
+                withAnimation {
+                    showLike = true
+                }
+                let likeRequest = ATProtoAPI.Com.Atproto.Repo.CreateRecord(input: .init(collection: "app.bsky.feed.like", record: .type2(.init(createdAt: .now, subject: .init(cid: feedPost.post.cid, uri: feedPost.post.uri))), repo: agent.did!))
+                let newLike = try await agent.client.send(likeRequest)
+                like = newLike.uri
+            }
+        } catch {
+            print(error)
+            withAnimation {
+                showLike = !showLike
+            }
+        }
     }
-
+    
+    func toggleRepost() async {
+        do {
+            if let rkey = repost?.rkey {
+                withAnimation {
+                    showRepost = false
+                }
+                let unlikeRequest = ATProtoAPI.Com.Atproto.Repo.DeleteRecord(input: .init(collection: "app.bsky.feed.repost", repo: agent.did!, rkey: rkey))
+                let _ = try await agent.client.send(unlikeRequest)
+                repost = nil
+            } else {
+                withAnimation {
+                    showRepost = true
+                }
+                let likeRequest = ATProtoAPI.Com.Atproto.Repo.CreateRecord(input: .init(collection: "app.bsky.feed.repost", record: .type4(.init(createdAt: .now, subject: .init(cid: feedPost.post.cid, uri: feedPost.post.uri))), repo: agent.did!))
+                let newLike = try await agent.client.send(likeRequest)
+                repost = newLike.uri
+            }
+        } catch {
+            print(error)
+            withAnimation {
+                showRepost = !showRepost
+            }
+        }
+    }
+    
+    func setLikeCount() {
+        var likeCount = feedPost.post.likeCount ?? 0
+        if showLike {
+            if feedPost.post.viewer?.like == nil {
+                likeCount += 1
+            }
+        } else {
+            if feedPost.post.viewer?.like != nil {
+                likeCount -= 1
+            }
+        }
+        self.likeCount = likeCount
+    }
+    
+    func setRepostCount() {
+        var repostCount = feedPost.post.repostCount ?? 0
+        if showRepost {
+            if feedPost.post.viewer?.repost == nil {
+                repostCount += 1
+            }
+        } else {
+            if feedPost.post.viewer?.repost != nil {
+                repostCount -= 1
+            }
+        }
+        self.repostCount = repostCount
+    }
+    
     var body: some View {
         HStack(alignment: .top) {
             AsyncImage(url: URL(string: feedPost.post.author.avatar ?? "")) { image in
@@ -62,6 +132,7 @@ struct FeedPostView: View {
                 if let body = feedPost.post.record.asPost?.text {
                     Text(body)
                         .multilineTextAlignment(.leading)
+                        .padding(.top, -8.0)
                 }
                 
                 if let embed = feedPost.post.embed {
@@ -69,42 +140,72 @@ struct FeedPostView: View {
                 }
                 
                 HStack {
-                    Label("Reply", systemImage: "bubble.left")
-                        .labelStyle(.iconOnly)
-                        .frame(minWidth: 30.0, alignment: .leading)
-                        .padding(.trailing)
                     HStack {
-                        Label("Repost", systemImage: "repeat")
+                        Label("Reply", systemImage: "bubble.left")
                             .labelStyle(.iconOnly)
-                        Text(String(feedPost.post.repostCount ?? 0))
-                    }.foregroundColor(repost == nil ? nil : .green)
-                        .onTapGesture {
-                            repostSheetOpen = true
-                        }.accessibilityLabel("Opens the repost/quote post menu")
-                        .confirmationDialog("Repost or quote post", isPresented: $repostSheetOpen, titleVisibility: .hidden) {
-                            Button("Repost") {
-                                print("repost")
+                        Text(String(feedPost.post.replyCount ?? 0))
+                    }
+                    .frame(minWidth: 60.0, alignment: .leading)
+                    .padding(.trailing)
+                    
+                    Menu {
+                        Button {
+                            Task {
+                                await toggleRepost()
                             }
-                            Button("Quote post") {
-                                print("quote post")
-                            }
+                        } label: {
+                            Label(repost == nil ? "Repost" : "Undo repost", systemImage: "repeat")
                         }
+                        Button {
+                            print("Quote")
+                        } label: {
+                            Label("Quote post", systemImage: "quote.bubble")
+                        }
+                    } label: {
+                        HStack {
+                            Label("Repost", systemImage: "repeat")
+                                .labelStyle(.iconOnly)
+                                .symbolEffect(.bounce.up.byLayer, value: showRepost)
+                            Text(String(repostCount))
+                                .fontWeight(showRepost ? .bold : .regular)
+                                .contentTransition(.numericText(value: Double(repostCount)))
+                                .onChange(of: showRepost) {
+                                    withAnimation {
+                                        setRepostCount()
+                                    }
+                                }
+                        }
+                        .foregroundStyle(showRepost ? .green : .primary)
                         .frame(minWidth: 60.0, alignment: .leading)
                         .padding(.trailing)
-                    HStack {
-                        Label("Like", systemImage: "heart")
-                            .symbolVariant(like == nil ? .none : .fill)
-                            .labelStyle(.iconOnly)
-                            .contentTransition(.symbolEffect(.replace))
-                        Text(String(feedPost.post.likeCount ?? 0))
-                    }.foregroundColor(like == nil ? nil : .red)
-                        .onTapGesture {
-                            toggleLike()
+                    }
+                    
+                    Button {
+                        Task {
+                            await toggleLike()
                         }
+                    } label: {
+                        HStack {
+                            Label("Like", systemImage: "heart")
+                                .symbolVariant(showLike ? .fill : .none)
+                                .labelStyle(.iconOnly)
+                                .contentTransition(.symbolEffect(.replace))
+                            Text(String(likeCount))
+                                .fontWeight(showLike ? .bold : .regular)
+                                .contentTransition(.numericText(value: Double(likeCount)))
+                                .onChange(of: showLike) {
+                                    withAnimation {
+                                        setLikeCount()
+                                    }
+                                }
+                        }
+                    }
+                    .foregroundStyle(showLike ? .red : .primary)
+                    .frame(minWidth: 60.0, alignment: .leading)
+                    .padding(.trailing)
                     
                 }
             }
-            
         }
     }
 }
