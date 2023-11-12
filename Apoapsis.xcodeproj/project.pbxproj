@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F71A0EFD2AFFC9F1007A8942 /* TestPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71A0EFC2AFFC9F1007A8942 /* TestPosts.swift */; };
+		F71A0F022B01308F007A8942 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = F71A0F012B01308F007A8942 /* BetterSafariView */; };
 		F73C14172ACD5AAF001707C1 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C14162ACD5AAF001707C1 /* TabsView.swift */; };
 		F73C14192ACD5C56001707C1 /* WIPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C14182ACD5C56001707C1 /* WIPView.swift */; };
 		F73C141B2ACD626B001707C1 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C141A2ACD626B001707C1 /* FeedView.swift */; };
@@ -61,6 +62,7 @@
 				F7D3E0E82ACB114400332E57 /* ATProtoXRPC in Frameworks */,
 				F7D3E0E42ACB114400332E57 /* ATProtoAPI in Frameworks */,
 				F7D3E0E62ACB114400332E57 /* ATProtoCore in Frameworks */,
+				F71A0F022B01308F007A8942 /* BetterSafariView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +148,7 @@
 				F7D3E0E32ACB114400332E57 /* ATProtoAPI */,
 				F7D3E0E52ACB114400332E57 /* ATProtoCore */,
 				F7D3E0E72ACB114400332E57 /* ATProtoXRPC */,
+				F71A0F012B01308F007A8942 /* BetterSafariView */,
 			);
 			productName = Apoapsis;
 			productReference = F75138822AC6F0B000F825B5 /* Apoapsis.app */;
@@ -177,6 +180,7 @@
 			mainGroup = F75138792AC6F0B000F825B5;
 			packageReferences = (
 				F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */,
+				F71A0F002B01308F007A8942 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
 			);
 			productRefGroup = F75138832AC6F0B000F825B5 /* Products */;
 			projectDirPath = "";
@@ -349,7 +353,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apoapsis/Apoapsis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -386,7 +390,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apoapsis/Apoapsis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Apoapsis/Preview Content\"";
 				DEVELOPMENT_TEAM = 54BH7CRWVK;
 				ENABLE_PREVIEWS = YES;
@@ -440,6 +444,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F71A0F002B01308F007A8942 /* XCRemoteSwiftPackageReference "BetterSafariView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stleamist/BetterSafariView.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/andooown/swift-atproto.git";
@@ -451,6 +463,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F71A0F012B01308F007A8942 /* BetterSafariView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F71A0F002B01308F007A8942 /* XCRemoteSwiftPackageReference "BetterSafariView" */;
+			productName = BetterSafariView;
+		};
 		F7D3E0E12ACB114400332E57 /* ATProto */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F7D3E0E02ACB114400332E57 /* XCRemoteSwiftPackageReference "swift-atproto" */;

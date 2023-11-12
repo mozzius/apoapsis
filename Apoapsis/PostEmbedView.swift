@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ATProto
+import BetterSafariView
 
 struct PostEmbedView: View {
     var embed: Union4<ATProto.App.Bsky.Embed.Images.View, ATProto.App.Bsky.Embed.External.View, ATProto.App.Bsky.Embed.Record.View, ATProto.App.Bsky.Embed.RecordWithMedia.View>
@@ -35,45 +36,62 @@ struct PostEmbedView: View {
 
 struct ExternalEmbedView: View {
     var external: ATProto.App.Bsky.Embed.External.View
+    @State private var isPresentingSafariView = false
     
     var body: some View {
-        VStack {
-            if let thumb = external.external.thumb {
-                AsyncImage(url: URL(string: thumb)) { image in
-                    image.centerCropped()
-                } placeholder: {
-                    Color.gray
-                }
-                .aspectRatio(CGSize(width: 1200, height: 630), contentMode: .fill)
-            }
-            VStack(spacing: 5.0) {
-                if let url = external.external.uri.url {
-                    if let host = url.host(percentEncoded: false) {
-                        HStack {
-                            Image(systemName: "link")
-                            Text(host)
-                                .lineLimit(1)
-                            Spacer()
-                        }
-                        .foregroundStyle(.gray).font(.subheadline)
+        Button {
+            isPresentingSafariView = true
+        } label: {
+            VStack {
+                if let thumb = external.external.thumb {
+                    AsyncImage(url: URL(string: thumb)) { image in
+                        image.centerCropped()
+                    } placeholder: {
+                        Color.gray
                     }
+                    .aspectRatio(CGSize(width: 1200, height: 630), contentMode: .fill)
                 }
-                HStack {
-                    Text(external.external.title)
-                        .font(.headline)
-                        .lineLimit(2)
-                    Spacer()
+                VStack(spacing: 5.0) {
+                    if let url = external.external.uri.url {
+                        if let host = url.host(percentEncoded: false) {
+                            HStack {
+                                Image(systemName: "link")
+                                Text(host)
+                                    .lineLimit(1)
+                                Spacer()
+                            }
+                            .foregroundStyle(.gray).font(.subheadline)
+                        }
+                    }
+                    HStack {
+                        Text(external.external.title)
+                            .font(.headline)
+                            .tint(.primary)
+                            .fontWeight(.regular)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .lineLimit(2)
+                        Spacer()
+                    }
+                    
                 }
-                
+                .padding(.bottom, 10.0)
+                .padding(.horizontal, 10.0)
+                .padding(/*@START_MENU_TOKEN@*/.top, 3.0/*@END_MENU_TOKEN@*/)
             }
-            .padding(.bottom, 10.0)
-            .padding(.horizontal)
-            .padding(/*@START_MENU_TOKEN@*/.top, 3.0/*@END_MENU_TOKEN@*/)
+            .frame(width: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 4.0))
+            .overlay(RoundedRectangle(cornerRadius: 4.0)
+                .stroke(.gray, lineWidth: 0.33))
         }
-        .frame(width: .infinity)
-        .clipShape(RoundedRectangle(cornerRadius: 4.0))
-        .overlay(RoundedRectangle(cornerRadius: 4.0)
-            .stroke(.gray, lineWidth: 0.33))
+        .buttonStyle(.borderless)
+        .safariView(isPresented: $isPresentingSafariView) {
+            SafariView(
+                url: external.external.uri.url!,
+                configuration: SafariView.Configuration(
+                    entersReaderIfAvailable: false
+                )
+            )
+        }
     }
 }
 

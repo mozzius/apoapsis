@@ -123,20 +123,23 @@ struct FeedPostView: View {
                 Group() {
                     if let displayName = feedPost.post.author.displayName {
                         Text(displayName).bold() + Text(" @" + feedPost.post.author.handle)
+                            .foregroundStyle(.secondary)
                     } else {
-                        Text("@" + feedPost.post.author.handle).foregroundColor(.gray)
+                        Text("@" + feedPost.post.author.handle).foregroundStyle(.secondary)
                     }
                     
                 }.lineLimit(1)
                 
                 if let body = feedPost.post.record.asPost?.text {
                     Text(body)
-                        .multilineTextAlignment(.leading)
+                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                         .padding(.top, -8.0)
+                        .frame(maxWidth: 500.0, alignment: .leading)
                 }
                 
                 if let embed = feedPost.post.embed {
                     PostEmbedView(embed: embed)
+                        .frame(maxWidth: 500.0, alignment: .leading)
                 }
                 
                 HStack {
@@ -200,6 +203,7 @@ struct FeedPostView: View {
                                 }
                         }
                     }
+                    .buttonStyle(.borderless)
                     .foregroundStyle(showLike ? .red : .primary)
                     .frame(minWidth: 60.0, alignment: .leading)
                     .padding(.trailing)
