@@ -108,106 +108,116 @@ struct FeedPostView: View {
     }
     
     var body: some View {
-        HStack(alignment: .top) {
-            AsyncImage(url: URL(string: feedPost.post.author.avatar ?? "")) { image in
-                image.resizable()
-            } placeholder: {
-                Color.gray
+        VStack(alignment: .leading) {
+            if let reason = feedPost.reason {
+                switch reason {
+                case .type0(let reposted):
+                    Label("Reposted by " + (reposted.by.displayName ?? ("@" + reposted.by.handle)), systemImage: "repeat")
+                        .padding(.leading, 16.0)
+                        .foregroundStyle(.primary)
+                }
             }
-            .frame(width: 48, height: 48)
-            .scaledToFit()
-            .clipShape(Circle())
-            .padding(.trailing, 2.0)
-            
-            VStack(alignment: .leading, spacing: 10.0) {
-                Group() {
-                    if let displayName = feedPost.post.author.displayName {
-                        Text(displayName).bold() + Text(" @" + feedPost.post.author.handle)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        Text("@" + feedPost.post.author.handle).foregroundStyle(.secondary)
+            HStack(alignment: .top) {
+                AsyncImage(url: URL(string: feedPost.post.author.avatar ?? "")) { image in
+                    image.resizable()
+                } placeholder: {
+                    Color.gray
+                }
+                .frame(width: 48, height: 48)
+                .scaledToFit()
+                .clipShape(Circle())
+                .padding(.trailing, 2.0)
+                
+                VStack(alignment: .leading, spacing: 10.0) {
+                    Group() {
+                        if let displayName = feedPost.post.author.displayName {
+                            Text(displayName).bold() + Text(" @" + feedPost.post.author.handle)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text("@" + feedPost.post.author.handle).foregroundStyle(.secondary)
+                        }
+                        
+                    }.lineLimit(1)
+                    
+                    if let body = feedPost.post.record.asPost?.text {
+                        Text(body)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.top, -8.0)
+                            .frame(maxWidth: 500.0, alignment: .leading)
                     }
                     
-                }.lineLimit(1)
-                
-                if let body = feedPost.post.record.asPost?.text {
-                    Text(body)
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
-                        .padding(.top, -8.0)
-                        .frame(maxWidth: 500.0, alignment: .leading)
-                }
-                
-                if let embed = feedPost.post.embed {
-                    PostEmbedView(embed: embed)
-                        .frame(maxWidth: 500.0, alignment: .leading)
-                }
-                
-                HStack {
+                    if let embed = feedPost.post.embed {
+                        PostEmbedView(embed: embed)
+                            .frame(maxWidth: 500.0, alignment: .leading)
+                    }
+                    
                     HStack {
-                        Label("Reply", systemImage: "bubble.left")
-                            .labelStyle(.iconOnly)
-                        Text(String(feedPost.post.replyCount ?? 0))
-                    }
-                    .frame(minWidth: 60.0, alignment: .leading)
-                    .padding(.trailing)
-                    
-                    Menu {
-                        Button {
-                            Task {
-                                await toggleRepost()
-                            }
-                        } label: {
-                            Label(repost == nil ? "Repost" : "Undo repost", systemImage: "repeat")
-                        }
-                        Button {
-                            print("Quote")
-                        } label: {
-                            Label("Quote post", systemImage: "quote.bubble")
-                        }
-                    } label: {
                         HStack {
-                            Label("Repost", systemImage: "repeat")
+                            Label("Reply", systemImage: "bubble.left")
                                 .labelStyle(.iconOnly)
-                                .symbolEffect(.bounce.up.byLayer, value: showRepost)
-                            Text(String(repostCount))
-                                .fontWeight(showRepost ? .bold : .regular)
-                                .contentTransition(.numericText(value: Double(repostCount)))
-                                .onChange(of: showRepost) {
-                                    withAnimation {
-                                        setRepostCount()
-                                    }
-                                }
+                            Text(String(feedPost.post.replyCount ?? 0))
                         }
-                        .foregroundStyle(showRepost ? .green : .primary)
                         .frame(minWidth: 60.0, alignment: .leading)
                         .padding(.trailing)
-                    }
-                    
-                    Button {
-                        Task {
-                            await toggleLike()
-                        }
-                    } label: {
-                        HStack {
-                            Label("Like", systemImage: "heart")
-                                .symbolVariant(showLike ? .fill : .none)
-                                .labelStyle(.iconOnly)
-                                .contentTransition(.symbolEffect(.replace))
-                            Text(String(likeCount))
-                                .fontWeight(showLike ? .bold : .regular)
-                                .contentTransition(.numericText(value: Double(likeCount)))
-                                .onChange(of: showLike) {
-                                    withAnimation {
-                                        setLikeCount()
-                                    }
+                        
+                        Menu {
+                            Button {
+                                Task {
+                                    await toggleRepost()
                                 }
+                            } label: {
+                                Label(repost == nil ? "Repost" : "Undo repost", systemImage: "repeat")
+                            }
+                            Button {
+                                print("Quote")
+                            } label: {
+                                Label("Quote post", systemImage: "quote.bubble")
+                            }
+                        } label: {
+                            HStack {
+                                Label("Repost", systemImage: "repeat")
+                                    .labelStyle(.iconOnly)
+                                    .symbolEffect(.bounce.up.byLayer, value: showRepost)
+                                Text(String(repostCount))
+                                    .fontWeight(showRepost ? .bold : .regular)
+                                    .contentTransition(.numericText(value: Double(repostCount)))
+                                    .onChange(of: showRepost) {
+                                        withAnimation {
+                                            setRepostCount()
+                                        }
+                                    }
+                            }
+                            .foregroundStyle(showRepost ? .green : .primary)
+                            .frame(minWidth: 60.0, alignment: .leading)
+                            .padding(.trailing)
                         }
+                        
+                        Button {
+                            Task {
+                                await toggleLike()
+                            }
+                        } label: {
+                            HStack {
+                                Label("Like", systemImage: "heart")
+                                    .symbolVariant(showLike ? .fill : .none)
+                                    .labelStyle(.iconOnly)
+                                    .contentTransition(.symbolEffect(.replace))
+                                Text(String(likeCount))
+                                    .fontWeight(showLike ? .bold : .regular)
+                                    .contentTransition(.numericText(value: Double(likeCount)))
+                                    .onChange(of: showLike) {
+                                        withAnimation {
+                                            setLikeCount()
+                                        }
+                                    }
+                            }
+                        }
+                        .buttonStyle(.borderless)
+                        .foregroundStyle(showLike ? .red : .primary)
+                        .frame(minWidth: 60.0, alignment: .leading)
+                        .padding(.trailing)
+                        
                     }
-                    .buttonStyle(.borderless)
-                    .foregroundStyle(showLike ? .red : .primary)
-                    .frame(minWidth: 60.0, alignment: .leading)
-                    .padding(.trailing)
-                    
                 }
             }
         }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F71A0EFD2AFFC9F1007A8942 /* TestPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71A0EFC2AFFC9F1007A8942 /* TestPosts.swift */; };
 		F71A0F022B01308F007A8942 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = F71A0F012B01308F007A8942 /* BetterSafariView */; };
+		F72A9A832B0155D800090628 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72A9A822B0155D800090628 /* UserInfoView.swift */; };
 		F73C14172ACD5AAF001707C1 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C14162ACD5AAF001707C1 /* TabsView.swift */; };
 		F73C14192ACD5C56001707C1 /* WIPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C14182ACD5C56001707C1 /* WIPView.swift */; };
 		F73C141B2ACD626B001707C1 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73C141A2ACD626B001707C1 /* FeedView.swift */; };
@@ -34,6 +35,7 @@
 		F71A0EFB2AFFB4E2007A8942 /* Apoapsis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Apoapsis.entitlements; sourceTree = "<group>"; };
 		F71A0EFC2AFFC9F1007A8942 /* TestPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPosts.swift; sourceTree = "<group>"; };
 		F71A0EFF2B003EC6007A8942 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
+		F72A9A822B0155D800090628 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		F73C14162ACD5AAF001707C1 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		F73C14182ACD5C56001707C1 /* WIPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WIPView.swift; sourceTree = "<group>"; };
 		F73C141A2ACD626B001707C1 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				F75138852AC6F0B000F825B5 /* ApoapsisApp.swift */,
 				F75138872AC6F0B000F825B5 /* ContentView.swift */,
 				F75138952AC6FD9700F825B5 /* HomeView.swift */,
+				F72A9A822B0155D800090628 /* UserInfoView.swift */,
 				F7555BB92AFE7EE00052909E /* HomeViewModel.swift */,
 				F73C141A2ACD626B001707C1 /* FeedView.swift */,
 				F7555BBB2AFFA1350052909E /* TimelineView.swift */,
@@ -217,6 +220,7 @@
 				F75138882AC6F0B000F825B5 /* ContentView.swift in Sources */,
 				F7555BBC2AFFA1350052909E /* TimelineView.swift in Sources */,
 				F75138862AC6F0B000F825B5 /* ApoapsisApp.swift in Sources */,
+				F72A9A832B0155D800090628 /* UserInfoView.swift in Sources */,
 				F7555BB62AFE61A90052909E /* PostEmbedView.swift in Sources */,
 				F73C141D2ACD6275001707C1 /* FeedViewModel.swift in Sources */,
 				F7555BB42AFE5A850052909E /* FeedPostView.swift in Sources */,

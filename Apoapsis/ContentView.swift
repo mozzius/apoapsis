@@ -50,6 +50,16 @@ class Agent: ObservableObject, ATProtoXRPC.SessionProvider  {
         }
     }
     
+    public func logIn(session: ATProtoXRPC.Session, did: String) {
+        self.session = session
+        self.did = did
+    }
+    
+    public func logOut() {
+        self.session = nil
+        self.did = nil
+    }
+    
     init() {
         let defaults = UserDefaults.standard
         if let savedSession = defaults.object(forKey: "session2") as? Data {

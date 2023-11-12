@@ -18,10 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var hasPreferences = false
     @Published var hasFeeds = false
     @Published var isLoading = false
-    
-    init() {
-    }
-    
+    @Published var me: ATProto.App.Bsky.Actor.Defs.ProfileViewDetailed?
     
     func fetch(agent: Agent) async {
         isLoading = true
@@ -55,6 +52,9 @@ class HomeViewModel: ObservableObject {
                     hasFeeds = true
                 }
             }
+            
+            let meRequest = ATProtoAPI.App.Bsky.Actor.GetProfile(parameters: .init(actor: agent.did!))
+            self.me = try await agent.client.send(meRequest)
             
             self.error = ""
         } catch {

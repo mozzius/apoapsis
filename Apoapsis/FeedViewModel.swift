@@ -16,10 +16,6 @@ class FeedViewModel: ObservableObject {
     @Published var hasData = false
     @Published var isLoading = false
     
-    init() {
-    }
-    
-    
     func fetch(uri: ATURI, agent: Agent) async {
         posts = []
         hasData = false

@@ -16,10 +16,6 @@ class TimelineViewModel: ObservableObject {
     @Published var hasData = false
     @Published var isLoading = false
     
-    init() {
-    }
-    
-    
     func fetch(agent: Agent) async {
         posts = []
         hasData = false

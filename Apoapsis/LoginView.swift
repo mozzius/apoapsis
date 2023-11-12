@@ -27,8 +27,7 @@ struct LoginView: View {
             do {
                 let request = XRPCRequests.CreateSession(input: .init(identifier: identifier, password: password))
                 let result = try await agent.client.send(request)
-                agent.session = result.toSession()
-                agent.did = result.did
+                agent.logIn(session: result.toSession(), did: result.did)
             } catch {
                 self.error = error.localizedDescription
             }
@@ -48,13 +47,13 @@ struct LoginView: View {
                     SecureField("Password", text: $password)
                         .textContentType(.password)
                 } header: {
-                    Text("Please sign in to continue.")
+                    Text("Please sign in to continue")
                 } footer: {
-                    error.isEmpty ? Text("You may want to log in using an App Password to ensure the safety of your account - however, this disables certain features.") : Text(error).foregroundColor(.red)
+                    error.isEmpty ? Text("You may want to log in using an App Password to ensure the safety of your account - however, this disables certain features") : Text(error).foregroundColor(.red)
                 }
-                Button(action: {
+                Button {
                     logIn()
-                }, label: {
+                } label: {
                     Group {
                         if isButtonDisabled {
                             ProgressView()
@@ -62,7 +61,7 @@ struct LoginView: View {
                             Text("Log in").bold()
                         }
                     }.frame(maxWidth: .infinity)
-                })
+                }
             }
             .navigationTitle("Sign in")
         }

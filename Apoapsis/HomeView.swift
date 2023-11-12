@@ -13,6 +13,7 @@ struct HomeView: View {
     @EnvironmentObject var agent: Agent
     @StateObject var vm = HomeViewModel()
     @State private var visibility: NavigationSplitViewVisibility = .all
+    @State private var isPresentingUserInfo = false
     // @State var query: String = ""
     
     var body: some View {
@@ -42,6 +43,29 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Bluesky")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isPresentingUserInfo = true
+                    } label: {
+                        if let avatar = vm.me?.avatar {
+                            AsyncImage(url: URL(string: avatar)) { image in
+                                image.resizable()
+                            } placeholder: {
+                                Image(systemName: "person.crop.circle")
+                            }
+                            .frame(width: 24, height: 24)
+                            .scaledToFit()
+                            .clipShape(Circle())
+                        } else {
+                            Image(systemName: "person.crop.circle")
+                        }
+                    }
+                    .sheet(isPresented: $isPresentingUserInfo) {
+                        UserInfoView(profile: vm.me)
+                    }
+                }
+            }
             // .searchable(text: $query, prompt: "Search feeds")
         } detail: {
             if selectedFeed == "following" {
