@@ -12,17 +12,42 @@ struct UserInfoView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var agent: Agent
     var profile: ATProto.App.Bsky.Actor.Defs.ProfileViewDetailed?
+    @State var copied = false
     
     var body: some View {
         NavigationView {
             Form {
                 if let me = profile {
                     Section {
-                        LabeledContent("Display name", value: me.displayName ?? "")
-                        LabeledContent("Handle", value: "@" + me.handle)
+                        Text(me.displayName ?? me.handle)
+                        Text("@" + me.handle)
+                    } header: {
+                        Text("Display name & handle")
+                    }
+                    if let desc = me.description {
+                        Section {
+                            Text(desc)
+                        } header: {
+                            Text("Description")
+                        }
                     }
                     Section {
-                        LabeledContent("DID", value: me.did)
+                        Text(copied ? "Copied!" : me.did)
+                            .contentTransition(.numericText())
+                            .onTapGesture {
+                                UIPasteboard.general.string = me.did
+                                withAnimation {
+                                    copied = true
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    withAnimation {
+                                        copied = false
+                                    }
+                                }
+                                
+                            }
+                    } header: {
+                        Text("DID")
                     }
                 }
                 Button {

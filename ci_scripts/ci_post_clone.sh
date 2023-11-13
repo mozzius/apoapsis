@@ -6,4 +6,4 @@
 #  Created by Samuel Newman on 11/11/2023.
 #  
 
-defaults write com.apple.dt.XcodeIDESkipPackagePluginFingerprintValidation -bool YES
+defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
