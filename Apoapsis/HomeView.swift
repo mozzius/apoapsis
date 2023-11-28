@@ -54,11 +54,12 @@ struct HomeView: View {
                             } placeholder: {
                                 Image(systemName: "person.crop.circle")
                             }
-                            .frame(width: 24, height: 24)
+                            .frame(width: 32, height: 32)
                             .scaledToFit()
                             .clipShape(Circle())
                         } else {
                             Image(systemName: "person.crop.circle")
+                                .imageScale(.large)
                         }
                     }
                     .sheet(isPresented: $isPresentingUserInfo) {
