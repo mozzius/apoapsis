@@ -1,3 +1,3 @@
 # Apoapsis
 
-An experimental Bluesky built with SwiftUI
+An experimental Bluesky client built with SwiftUI
