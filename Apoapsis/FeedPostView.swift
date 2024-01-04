@@ -108,13 +108,13 @@ struct FeedPostView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4) {
             if let reason = feedPost.reason {
                 switch reason {
                 case .type0(let reposted):
                     HStack(alignment: .top) {
                         Image(systemName:"repeat")
-                            .padding(.top, 2.0)
+                            .padding(.top, 1.0)
                             .frame(width: 48, alignment: .trailing)
                         Text((reposted.by.displayName ?? ("@" + reposted.by.handle)) + " reposted")
                     }

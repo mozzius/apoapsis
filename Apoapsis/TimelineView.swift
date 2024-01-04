@@ -16,7 +16,6 @@ struct TimelineView: View {
         List {
             ForEach(vm.posts, id: \.post.uri) { feedPost in
                 FeedPostView(feedPost: feedPost)
-                    .listRowInsets(.none)
                     .alignmentGuide(.listRowSeparatorLeading) { _ in -30 }
                     .task() {
                         if feedPost.post.uri == vm.posts.last?.post.uri {
