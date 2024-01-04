@@ -120,6 +120,7 @@ struct FeedPostView: View {
                     }
                     .bold()
                     .foregroundStyle(.secondary)
+                    .font(.caption)
                 }
             }
             HStack(alignment: .top) {
@@ -148,6 +149,7 @@ struct FeedPostView: View {
                         Text(body)
                             .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                             .padding(.top, -8.0)
+                            .font(.body)
                     }
                     
                     if let embed = feedPost.post.embed {
@@ -221,10 +223,12 @@ struct FeedPostView: View {
                         .frame(minWidth: 60.0, alignment: .leading)
                         .padding(.trailing)
                         
-                    }
+                    }.font(.footnote)
                 }
             }
         }
+        .listRowInsets(EdgeInsets())
+        .padding(8)
     }
 }
 
