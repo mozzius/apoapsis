@@ -65,8 +65,8 @@ struct UserInfoView: View {
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .symbolRenderingMode(.hierarchical)
-                            .tint(.primary)
-                            .controlSize(.large)
+                            .tint(.secondary)
+                            .controlSize(.extraLarge)
                     }
                 }
             }

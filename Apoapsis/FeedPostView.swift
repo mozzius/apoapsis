@@ -112,9 +112,14 @@ struct FeedPostView: View {
             if let reason = feedPost.reason {
                 switch reason {
                 case .type0(let reposted):
-                    Label("Reposted by " + (reposted.by.displayName ?? ("@" + reposted.by.handle)), systemImage: "repeat")
-                        .padding(.leading, 16.0)
-                        .foregroundStyle(.primary)
+                    HStack(alignment: .top) {
+                        Image(systemName:"repeat")
+                            .padding(.top, 2.0)
+                            .frame(width: 48, alignment: .trailing)
+                        Text((reposted.by.displayName ?? ("@" + reposted.by.handle)) + " reposted")
+                    }
+                    .bold()
+                    .foregroundStyle(.secondary)
                 }
             }
             HStack(alignment: .top) {
@@ -143,12 +148,11 @@ struct FeedPostView: View {
                         Text(body)
                             .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                             .padding(.top, -8.0)
-                            .frame(maxWidth: 500.0, alignment: .leading)
                     }
                     
                     if let embed = feedPost.post.embed {
                         PostEmbedView(embed: embed)
-                            .frame(maxWidth: 500.0, alignment: .leading)
+                            .padding(.trailing)
                     }
                     
                     HStack {

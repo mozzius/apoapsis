@@ -167,13 +167,13 @@ struct ImagesEmbedView: View {
                     } placeholder: {
                         Color.gray
                     }
-                    .aspectRatio(1, contentMode: .fill)
+                    .aspectRatio(1.5, contentMode: .fill)
                     AsyncImage(url: URL(string: image2.thumb)) { image in
                         image.centerCropped()
                     } placeholder: {
                         Color.gray
                     }
-                    .aspectRatio(1, contentMode: .fill)
+                    .aspectRatio(1.5, contentMode: .fill)
                 }
                 VStack(spacing: 4.0) {
                     AsyncImage(url: URL(string: image3.thumb)) { image in
@@ -181,13 +181,13 @@ struct ImagesEmbedView: View {
                     } placeholder: {
                         Color.gray
                     }
-                    .aspectRatio(1, contentMode: .fill)
+                    .aspectRatio(1.5, contentMode: .fill)
                     AsyncImage(url: URL(string: image4.thumb)) { image in
                         image.centerCropped()
                     } placeholder: {
                         Color.gray
                     }
-                    .aspectRatio(1, contentMode: .fill)
+                    .aspectRatio(1.5, contentMode: .fill)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 4.0))
