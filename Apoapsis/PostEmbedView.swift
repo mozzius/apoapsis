@@ -37,10 +37,15 @@ struct PostEmbedView: View {
 struct ExternalEmbedView: View {
     var external: ATProto.App.Bsky.Embed.External.View
     @State private var isPresentingSafariView = false
+    @Environment(\.openURL) private var openURL
     
     var body: some View {
         Button {
+#if os(visionOS)
+            openURL(external.external.uri.url!)
+#else
             isPresentingSafariView = true
+#endif
         } label: {
             VStack {
                 if let thumb = external.external.thumb {
@@ -84,6 +89,7 @@ struct ExternalEmbedView: View {
                 .stroke(.gray, lineWidth: 0.33))
         }
         .buttonStyle(.borderless)
+#if !os(visionOS)
         .safariView(isPresented: $isPresentingSafariView) {
             SafariView(
                 url: external.external.uri.url!,
@@ -92,6 +98,7 @@ struct ExternalEmbedView: View {
                 )
             )
         }
+#endif
     }
 }
 
