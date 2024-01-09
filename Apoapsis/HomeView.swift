@@ -14,7 +14,7 @@ struct HomeView: View {
     @StateObject var vm = HomeViewModel()
     @State private var visibility: NavigationSplitViewVisibility = .all
     @State private var isPresentingUserInfo = false
-    // @State var query: String = ""
+     @State var query: String = ""
     
     var body: some View {
         NavigationSplitView(columnVisibility: $visibility) {
@@ -42,6 +42,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .searchable(text: $query)
             .navigationTitle("Bluesky")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -62,6 +63,7 @@ struct HomeView: View {
                                 .imageScale(.large)
                         }
                     }
+                    .buttonStyle(.borderless)
                     .sheet(isPresented: $isPresentingUserInfo) {
                         UserInfoView(profile: vm.me)
                     }

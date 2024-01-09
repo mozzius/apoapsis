@@ -12,7 +12,6 @@ struct UserInfoView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var agent: Agent
     var profile: ATProto.App.Bsky.Actor.Defs.ProfileViewDetailed?
-    @State var copied = false
     
     var body: some View {
         NavigationView {
@@ -31,24 +30,6 @@ struct UserInfoView: View {
                             Text("Description")
                         }
                     }
-                    Section {
-                        Text(copied ? "Copied!" : me.did)
-                            .contentTransition(.numericText())
-                            .onTapGesture {
-                                UIPasteboard.general.string = me.did
-                                withAnimation {
-                                    copied = true
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    withAnimation {
-                                        copied = false
-                                    }
-                                }
-                                
-                            }
-                    } header: {
-                        Text("DID")
-                    }
                 }
                 Button {
                     agent.logOut()
@@ -66,8 +47,8 @@ struct UserInfoView: View {
                         Image(systemName: "xmark.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .tint(.secondary)
-                            .controlSize(.extraLarge)
-                    }
+                            .controlSize(.large)
+                    }.buttonStyle(.borderless)
                 }
             }
         }

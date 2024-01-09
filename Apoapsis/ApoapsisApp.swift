@@ -13,5 +13,6 @@ struct ApoapsisApp: App {
         WindowGroup {
             ContentView()
         }
+        .windowResizability(.contentMinSize)
     }
 }

@@ -64,6 +64,9 @@ struct LoginView: View {
                 }
             }
             .navigationTitle("Sign in")
+            #if os(visionOS)
+            .frame(maxWidth: 500)
+            #endif
         }
     }
 }

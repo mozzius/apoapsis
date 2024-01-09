@@ -135,7 +135,7 @@ struct FeedPostView: View {
                 .padding(.trailing, 2.0)
                 
                 VStack(alignment: .leading, spacing: 10.0) {
-                    Group() {
+                    Group {
                         if let displayName = feedPost.post.author.displayName {
                             Text(displayName).bold() + Text(" @" + feedPost.post.author.handle)
                                 .foregroundStyle(.secondary)
@@ -154,6 +154,7 @@ struct FeedPostView: View {
                     
                     if let embed = feedPost.post.embed {
                         PostEmbedView(embed: embed)
+//                            .frame(maxWidth: 500, alignment: .leading)
                             .padding(.trailing)
                     }
                     
@@ -197,6 +198,8 @@ struct FeedPostView: View {
                             .frame(minWidth: 60.0, alignment: .leading)
                             .padding(.trailing)
                         }
+                        .menuStyle(.button)
+                        .buttonStyle(.borderless)
                         
                         Button {
                             Task {
@@ -222,6 +225,9 @@ struct FeedPostView: View {
                         .foregroundStyle(showLike ? .red : .primary)
                         .frame(minWidth: 60.0, alignment: .leading)
                         .padding(.trailing)
+                        #if !os(visionOS)
+                        .sensoryFeedback(.increase, trigger: likeCount)
+                        #endif
                         
                     }.font(.footnote)
                 }
@@ -229,6 +235,7 @@ struct FeedPostView: View {
         }
         .listRowInsets(EdgeInsets())
         .padding(8)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

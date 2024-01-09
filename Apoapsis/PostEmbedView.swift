@@ -13,24 +13,88 @@ struct PostEmbedView: View {
     var embed: Union4<ATProto.App.Bsky.Embed.Images.View, ATProto.App.Bsky.Embed.External.View, ATProto.App.Bsky.Embed.Record.View, ATProto.App.Bsky.Embed.RecordWithMedia.View>
     
     var body: some View {
-        switch embed {
-        case .type0(let images):
-            ImagesEmbedView(images: images)
-        case .type1(let external):
-            ExternalEmbedView(external: external)
-        case .type2(let record):
-            Text("<Quote>")
-        case .type3(let recordWithMedia):
-            VStack(spacing: 5.0) {
-                switch recordWithMedia.media {
-                case .type0(let images):
-                    ImagesEmbedView(images: images)
-                case .type1(let external):
-                    ExternalEmbedView(external: external)
+        ZStack {
+            switch embed {
+            case .type0(let images):
+                ImagesEmbedView(images: images)
+            case .type1(let external):
+                ExternalEmbedView(external: external)
+            case .type2(let record):
+                QuoteView(record: record)
+            case .type3(let recordWithMedia):
+                VStack(spacing: 8.0) {
+                    switch recordWithMedia.media {
+                    case .type0(let images):
+                        ImagesEmbedView(images: images)
+                    case .type1(let external):
+                        ExternalEmbedView(external: external)
+                    }
+                    QuoteView(record: recordWithMedia.record)
                 }
-                Text("<Quote>")
             }
         }
+    }
+}
+
+struct QuoteView: View {
+    var record: ATProto.App.Bsky.Embed.Record.View
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            switch record.record {
+            case .type0(let post):
+                HStack(spacing: 8) {
+                    AsyncImage(url: URL(string: post.author.avatar ?? "")) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .frame(width: 16, height: 16)
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    Group {
+                        if let displayName = post.author.displayName {
+                            Text(displayName).bold() + Text(" @" + post.author.handle)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Text("@" + post.author.handle).foregroundStyle(.secondary)
+                        }
+                        
+                    }.lineLimit(1)
+                }
+                .frame(maxWidth:.infinity, alignment: .leading)
+                if let body = post.value.asPost?.text {
+                    Text(body)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(3)
+                        .font(.body)
+                }
+            case .type1(_):
+                Label("Post has been deleted", systemImage: "trash")
+            case .type2(_):
+                Label("Blocked post", systemImage: "shield")
+            case .type3(let feed):
+                Text("Custom feed")
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
+                Text(feed.displayName)
+                Text("by @\(feed.creator.handle)")
+                    .foregroundStyle(.secondary)
+            case .type4(let list):
+                Text("List")
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
+                Text(list.name)
+                Text("by @\(list.creator.handle)")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(.secondary, lineWidth: 0.33)
+        )
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -56,7 +120,7 @@ struct ExternalEmbedView: View {
                     }
                     .aspectRatio(CGSize(width: 1200, height: 630), contentMode: .fill)
                 }
-                VStack(spacing: 5.0) {
+                VStack(spacing: 5) {
                     if let url = external.external.uri.url {
                         if let host = url.host(percentEncoded: false) {
                             HStack {
@@ -79,14 +143,13 @@ struct ExternalEmbedView: View {
                     }
                     
                 }
-                .padding(.bottom, 10.0)
-                .padding(.horizontal, 10.0)
-                .padding(/*@START_MENU_TOKEN@*/.top, 3.0/*@END_MENU_TOKEN@*/)
+                .padding(.bottom, 10)
+                .padding(.horizontal, 10)
+                .padding(.top, 3)
             }
-            .frame(width: .infinity)
-            .clipShape(RoundedRectangle(cornerRadius: 4.0))
-            .overlay(RoundedRectangle(cornerRadius: 4.0)
-                .stroke(.gray, lineWidth: 0.33))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+            .overlay(RoundedRectangle(cornerRadius: 4)
+                .stroke(.secondary, lineWidth: 0.33))
         }
         .buttonStyle(.borderless)
 #if !os(visionOS)
@@ -114,10 +177,9 @@ struct ImagesEmbedView: View {
             } placeholder: {
                 Color.gray
             }
-            .frame(width: .infinity)
             .scaledToFit()
-            .clipShape(RoundedRectangle(cornerRadius: 4.0))
-            .overlay(RoundedRectangle(cornerRadius: 4.0)
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+            .overlay(RoundedRectangle(cornerRadius: 4)
                 .stroke(.gray, lineWidth: 0.33))
         case 2:
             let image1 = images.images[0]
@@ -141,14 +203,14 @@ struct ImagesEmbedView: View {
             let image1 = images.images[0]
             let image2 = images.images[1]
             let image3 = images.images[2]
-            HStack(spacing: 4.0) {
+            HStack(spacing: 4) {
                 AsyncImage(url: URL(string: image1.thumb)) { image in
                     image.centerCropped()
                 } placeholder: {
                     Color.gray
                 }
                 .aspectRatio(1, contentMode: .fill)
-                VStack(spacing: 4.0) {
+                VStack(spacing: 4) {
                     AsyncImage(url: URL(string: image2.thumb)) { image in
                         image.centerCropped()
                     } placeholder: {
@@ -161,14 +223,14 @@ struct ImagesEmbedView: View {
                     }
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 4.0))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
         case 4:
             let image1 = images.images[0]
             let image2 = images.images[1]
             let image3 = images.images[2]
             let image4 = images.images[3]
-            HStack(spacing: 4.0) {
-                VStack(spacing: 4.0) {
+            HStack(spacing: 4) {
+                VStack(spacing: 4) {
                     AsyncImage(url: URL(string: image1.thumb)) { image in
                         image.centerCropped()
                     } placeholder: {
@@ -199,7 +261,7 @@ struct ImagesEmbedView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 4.0))
         default:
-            Text("unreachable but it's insisting on being exhaustive")
+            EmptyView()
         }
     }
 }
