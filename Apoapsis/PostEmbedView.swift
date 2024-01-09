@@ -13,26 +13,31 @@ struct PostEmbedView: View {
     var embed: Union4<ATProto.App.Bsky.Embed.Images.View, ATProto.App.Bsky.Embed.External.View, ATProto.App.Bsky.Embed.Record.View, ATProto.App.Bsky.Embed.RecordWithMedia.View>
     
     var body: some View {
-        ZStack {
             switch embed {
             case .type0(let images):
                 ImagesEmbedView(images: images)
+                    .frame(depth: 12, alignment: .front)
             case .type1(let external):
                 ExternalEmbedView(external: external)
+                    .frame(depth: 12, alignment: .front)
+                    .hoverEffect(.lift)
             case .type2(let record):
                 QuoteView(record: record)
+                    .frame(depth: 12, alignment: .front)
             case .type3(let recordWithMedia):
                 VStack(spacing: 8.0) {
                     switch recordWithMedia.media {
                     case .type0(let images):
                         ImagesEmbedView(images: images)
+                            .frame(depth: 12, alignment: .front)
                     case .type1(let external):
                         ExternalEmbedView(external: external)
+                            .frame(depth: 12, alignment: .front)
                     }
                     QuoteView(record: recordWithMedia.record)
+                        .frame(depth: 12, alignment: .front)
                 }
             }
-        }
     }
 }
 
@@ -129,7 +134,7 @@ struct ExternalEmbedView: View {
                                     .lineLimit(1)
                                 Spacer()
                             }
-                            .foregroundStyle(.gray).font(.subheadline)
+                            .foregroundStyle(.secondary).font(.subheadline)
                         }
                     }
                     HStack {
@@ -145,13 +150,17 @@ struct ExternalEmbedView: View {
                 }
                 .padding(.bottom, 10)
                 .padding(.horizontal, 10)
-                .padding(.top, 3)
+                .padding(.top, (external.external.thumb != nil) ? 3 : 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .background(.regularMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 4))
             .overlay(RoundedRectangle(cornerRadius: 4)
                 .stroke(.secondary, lineWidth: 0.33))
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .buttonStyle(.borderless)
+        .frame(maxWidth: .infinity, alignment: .leading)
 #if !os(visionOS)
         .safariView(isPresented: $isPresentingSafariView) {
             SafariView(
@@ -180,7 +189,7 @@ struct ImagesEmbedView: View {
             .scaledToFit()
             .clipShape(RoundedRectangle(cornerRadius: 4))
             .overlay(RoundedRectangle(cornerRadius: 4)
-                .stroke(.gray, lineWidth: 0.33))
+                .stroke(.secondary, lineWidth: 0.33))
         case 2:
             let image1 = images.images[0]
             let image2 = images.images[1]

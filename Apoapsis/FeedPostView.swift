@@ -154,7 +154,7 @@ struct FeedPostView: View {
                     
                     if let embed = feedPost.post.embed {
                         PostEmbedView(embed: embed)
-//                            .frame(maxWidth: 500, alignment: .leading)
+                            .frame(maxWidth: 500, alignment: .leading)
                             .padding(.trailing)
                     }
                     
