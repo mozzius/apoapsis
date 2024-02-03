@@ -16,26 +16,38 @@ struct PostEmbedView: View {
             switch embed {
             case .type0(let images):
                 ImagesEmbedView(images: images)
+                #if os(visionOS)
                     .frame(depth: 12, alignment: .front)
+                #endif
             case .type1(let external):
                 ExternalEmbedView(external: external)
+                #if os(visionOS)
                     .frame(depth: 12, alignment: .front)
                     .hoverEffect(.lift)
+                #endif
             case .type2(let record):
                 QuoteView(record: record)
+                #if os(visionOS)
                     .frame(depth: 12, alignment: .front)
+                #endif
             case .type3(let recordWithMedia):
                 VStack(spacing: 8.0) {
                     switch recordWithMedia.media {
                     case .type0(let images):
                         ImagesEmbedView(images: images)
+                        #if os(visionOS)
                             .frame(depth: 12, alignment: .front)
+                        #endif
                     case .type1(let external):
                         ExternalEmbedView(external: external)
+                        #if os(visionOS)
                             .frame(depth: 12, alignment: .front)
+                        #endif
                     }
                     QuoteView(record: recordWithMedia.record)
+                    #if os(visionOS)
                         .frame(depth: 12, alignment: .front)
+                    #endif
                 }
             }
     }
